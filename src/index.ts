@@ -1,46 +1,38 @@
 import p5 from 'p5';
+import GameObject from './GameObject';
+import Player from './Player';
+import Rock from './Rock';
+
+import './index.css'
 
 const element: HTMLElement = document.createElement('div');
+document.body.appendChild(element);
 
 new p5((s: p5) => {
-    const SPEED = 5;
-    let x = 0;
-    let y = 0;
+    let player: Player;
+    let rocks: Rock[] = [];
 
     s.setup = function () {
-        s.createCanvas(700, 410);
+        s.pixelDensity(1);
+        s.createCanvas(600, 600);
+
+        player = new Player(s);
+
+        for (let i = 0; i < 10; i++) {
+            rocks.push(new Rock(s));
+        }
     }
 
     s.draw = function () {
-        s.background(230);
-        s.fill('black');
-        s.rect(x, y, 100, 100);
+        s.background(40);
 
-        if (s.keyIsDown(s.DOWN_ARROW)) {
-            y += SPEED;
-        }
-        if (s.keyIsDown(s.UP_ARROW)) {
-            y -= SPEED
-        }
-        if (s.keyIsDown(s.LEFT_ARROW)) {
-            x -= SPEED;
-        }
-        if (s.keyIsDown(s.RIGHT_ARROW)) {
-            x += SPEED;
-        }
+        // Collect all the game objects together so they can be updated/drawn
+        const gameObjects: GameObject[] = [player, ...rocks];
 
-        if (x > s.width) {
-            x = 0;
-        } else if (x < 0) {
-            x = s.width;
-        }
+        // Update each GameObject
+        gameObjects.forEach(g => g.update());
 
-        if (y > s.height) {
-            y = 0;
-        } else if (y < 0) {
-            y = s.height;
-        }
+        // Draw all GameObjects
+        gameObjects.forEach(g => g.draw());
     }
 }, element);
-
-document.body.appendChild(element);
