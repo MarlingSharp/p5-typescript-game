@@ -26,6 +26,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'p5.js Game',
+
         }),
     ],
     devServer: {
