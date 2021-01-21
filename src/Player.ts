@@ -4,12 +4,12 @@ import GameObject from "./GameObject";
 class Player extends GameObject {
     static STEERING_FORCE: number = 0.05;
 
-    radius: number;
+    size: number;
 
-    constructor(s: p5) {
+    constructor(s: p5, size: number) {
         super(s);
 
-        this.radius = 50;
+        this.size = size;
     }
 
     update() {
@@ -35,7 +35,7 @@ class Player extends GameObject {
         this.s.translate(this.position);
 
         this.s.fill('purple')
-        this.s.ellipse(0, 0, this.radius);
+        this.s.ellipse(0, 0, this.size);
 
         this.s.pop();
     }

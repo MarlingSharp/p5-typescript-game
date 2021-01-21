@@ -1,16 +1,12 @@
 import p5 from "p5";
-import GameObject from "./GameObject";
+import Obstacle from "./Obstacle";
 
-class Rock extends GameObject {
-    size: number;
+class Rock extends Obstacle {
+    constructor(s: p5, radius: number) {
+        super(s, radius);
 
-    constructor(s: p5) {
-        super(s);
-
-        this.size = 10;
-        this.velocity.add(s.createVector(s.random(), s.random()));
+        this.velocity.add(s.createVector(s.random(-1, 1), s.random(-1, 1)));
         this.position = s.createVector(s.random(0, s.width), s.random(0, s.height));
-
     }
 
     draw() {
@@ -21,7 +17,7 @@ class Rock extends GameObject {
         s.fill('yellow');
         s.translate(this.position);
 
-        s.rect(-this.size / 2, -this.size / 2, this.size, this.size);
+        s.rect(-this.radius / 2, -this.radius / 2, this.radius, this.radius);
 
         s.pop();
     }
