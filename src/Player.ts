@@ -2,42 +2,50 @@ import p5 from "p5";
 import GameObject from "./GameObject";
 
 class Player extends GameObject {
-    static STEERING_FORCE: number = 0.05;
+    static STEERING_FORCE: number = 0.08;
+    static THRUST: number = 0.1;
+    static BRAKING_FORCE: number = -0.05;
 
-    size: number;
+    heading: number;
 
-    constructor(s: p5, size: number) {
-        super(s);
+    constructor(s: p5, radius: number) {
+        super(s, radius);
 
-        this.size = size;
+        this.heading = 0;
     }
 
     update() {
         const { s } = this;
 
         if (s.keyIsDown(s.DOWN_ARROW)) {
-            this.applyForce(s.createVector(0, Player.STEERING_FORCE))
+            let force = this.velocity.copy().mult(Player.BRAKING_FORCE);
+            this.applyForce(force);
         } else if (s.keyIsDown(s.UP_ARROW)) {
-            this.applyForce(s.createVector(0, -Player.STEERING_FORCE))
+            let force = s.createVector(0, Player.THRUST);
+            force.setMag(Player.THRUST);
+            force.rotate(this.heading);
+            this.applyForce(force);
         }
         if (s.keyIsDown(s.LEFT_ARROW)) {
-            this.applyForce(s.createVector(-Player.STEERING_FORCE, 0))
+            this.heading -= Player.STEERING_FORCE;
         } else if (s.keyIsDown(s.RIGHT_ARROW)) {
-            this.applyForce(s.createVector(Player.STEERING_FORCE, 0))
+            this.heading += Player.STEERING_FORCE;
         }
 
         super.update();
     }
 
-    draw() {
-        this.s.push();
+    drawAtOrigin() {
+        const { s } = this;
 
-        this.s.translate(this.position);
+        s.rotate(this.heading);
 
-        this.s.fill('purple')
-        this.s.ellipse(0, 0, this.size);
-
-        this.s.pop();
+        s.fill('purple');
+        s.beginShape();
+        s.vertex(-this.radius / 3, -this.radius / 2);
+        s.vertex(+this.radius / 3, -this.radius / 2);
+        s.vertex(0, this.radius / 2);
+        s.endShape();
     }
 }
 

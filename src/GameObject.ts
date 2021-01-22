@@ -8,6 +8,7 @@ abstract class GameObject {
     static SPEED_LIMIT: number = 5.0;
 
     s: p5; // Keep reference to the sketch
+    radius: number;
     position: p5.Vector;
     velocity: p5.Vector;
     acceleration: p5.Vector;
@@ -17,17 +18,31 @@ abstract class GameObject {
      * 
      * @param s p5.js Sketch, allows calls to drawing API
      */
-    constructor(s: p5) {
+    constructor(s: p5, radius: number) {
         this.s = s;
+        this.radius = radius;
         this.position = s.createVector(s.width / 2, s.height / 2);
         this.velocity = s.createVector(0, 0);
         this.acceleration = s.createVector(0, 0);
     }
 
+    draw() {
+        const { s } = this;
+        s.push();
+        s.translate(this.position);
+        this.drawAtOrigin(s);
+        s.pop();
+    }
+
+    isCollidingWith(other: GameObject): boolean {
+        let diff = p5.Vector.sub(this.position, other.position);
+        return (diff.mag() < (other.radius + this.radius));
+    }
+
     /**
      * Draw self to the sketch
      */
-    abstract draw(): void;
+    abstract drawAtOrigin(s: p5): void;
 
     /**
      * Use the accumulated forces to apply acceleration to the velocity

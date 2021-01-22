@@ -19,13 +19,8 @@ class SwirlyThing extends Obstacle {
         this.phase += 0.1;
     }
 
-    draw() {
-        const { s } = this;
-
-        s.push();
-
+    drawAtOrigin(s: p5) {
         s.fill('red');
-        s.translate(this.position);
 
         s.rotate(this.phase);
 
@@ -36,8 +31,6 @@ class SwirlyThing extends Obstacle {
             s.ellipse(0, 0, this.radius / 2);
             s.pop();
         }
-
-        s.pop();
     }
 }
 

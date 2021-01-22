@@ -9,17 +9,11 @@ class Rock extends Obstacle {
         this.position = s.createVector(s.random(0, s.width), s.random(0, s.height));
     }
 
-    draw() {
-        const { s } = this;
-
-        s.push();
-
+    drawAtOrigin(s: p5) {
         s.fill('yellow');
         s.translate(this.position);
 
-        s.rect(-this.radius / 2, -this.radius / 2, this.radius, this.radius);
-
-        s.pop();
+        s.ellipse(0, 0, this.radius, this.radius);
     }
 }
 
