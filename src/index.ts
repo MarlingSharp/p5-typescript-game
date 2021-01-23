@@ -7,6 +7,7 @@ import SwirlyThing from './SwirlyThing'
 import './index.css'
 import Bullet from './Bullet';
 import Obstacle from './Obstacle';
+import ThrustParticle from './ThrustParticle';
 
 const element: HTMLElement = document.createElement('div');
 document.body.appendChild(element);
@@ -20,12 +21,14 @@ new p5((s: p5) => {
     let obstacles: Obstacle[] = [];
     let bullets: Bullet[] = [];
     let numberObstacles: number = 10;
+    let emittedObjects: GameObject[] = [];
 
     s.setup = function () {
         s.pixelDensity(1);
         s.createCanvas(600, 600);
 
         player = new Player(s, PLAYER_SIZE);
+        player.setEmitter(go => emittedObjects.push(go));
     }
 
     s.draw = function () {
@@ -35,7 +38,7 @@ new p5((s: p5) => {
         obstacles = obstacles.filter(o => !bullets.find(b => b.isCollidingWith(o)))
 
         // Collect all the game objects together so they can be updated/drawn
-        const gameObjects: GameObject[] = [...bullets, ...obstacles, player];
+        const gameObjects: GameObject[] = [...bullets, ...obstacles, ...emittedObjects, player];
 
         // Update each GameObject
         gameObjects.forEach(g => g.update());
@@ -44,6 +47,7 @@ new p5((s: p5) => {
         gameObjects.forEach(g => g.draw());
 
         bullets = bullets.filter(b => b.isAlive());
+        emittedObjects = emittedObjects.filter(b => b.isAlive());
 
         // Ensure we have enough obstacles
         while (obstacles.length < numberObstacles) {

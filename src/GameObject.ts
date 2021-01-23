@@ -1,5 +1,7 @@
 import p5 from "p5";
 
+type GameObjectEmitter = (go: GameObject) => void;
+
 /**
  * General purpose game object, with a simple physics implementation.
  * With acceleration being built from forces during each frame.
@@ -12,6 +14,7 @@ abstract class GameObject {
     position: p5.Vector;
     velocity: p5.Vector;
     acceleration: p5.Vector;
+    emitGameObject: GameObjectEmitter;
 
     /**
      * Build a new Game Object.
@@ -24,6 +27,11 @@ abstract class GameObject {
         this.position = s.createVector(s.width / 2, s.height / 2);
         this.velocity = s.createVector(0, 0);
         this.acceleration = s.createVector(0, 0);
+        this.emitGameObject = () => { };
+    }
+
+    setEmitter(emitGameObject: GameObjectEmitter) {
+        this.emitGameObject = emitGameObject;
     }
 
     draw() {
@@ -37,6 +45,10 @@ abstract class GameObject {
     isCollidingWith(other: GameObject): boolean {
         let diff = p5.Vector.sub(this.position, other.position);
         return (diff.mag() < (other.radius + this.radius));
+    }
+
+    isAlive(): boolean {
+        return true;
     }
 
     /**
