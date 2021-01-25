@@ -40,7 +40,9 @@ class Player extends GameObject {
 
         s.rotate(this.heading);
 
+        s.noStroke();
         s.fill('purple');
+
         s.beginShape();
         s.vertex(-this.radius / 3, -this.radius / 2);
         s.vertex(+this.radius / 3, -this.radius / 2);

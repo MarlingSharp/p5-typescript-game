@@ -30,6 +30,9 @@ abstract class GameObject {
         const { s } = this;
         s.push();
         s.translate(this.position);
+        s.noFill();
+        s.stroke('lime');
+        s.ellipse(0, 0, this.radius);
         this.drawAtOrigin(s);
         s.pop();
     }
