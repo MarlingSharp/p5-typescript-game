@@ -2,11 +2,9 @@ import p5 from 'p5';
 import GameObject from './GameObject';
 import Player from './Player';
 import Rock from './Rock';
+import Bullet from './Bullet';
 
 import './index.css'
-import Bullet from './Bullet';
-import Obstacle from './Obstacle';
-import ThrustParticle from './ThrustParticle';
 
 const element: HTMLElement = document.createElement('div');
 document.body.appendChild(element);
@@ -19,12 +17,8 @@ new p5((s: p5) => {
     let player: Player;
     let rocks: Rock[] = [];
     let bullets: Bullet[] = [];
-<<<<<<< HEAD
-    let numberObstacles: number = 10;
     let emittedObjects: GameObject[] = [];
-=======
     let numberRocks: number = 1;
->>>>>>> a8252f7451e409183938e0c52b6e6916725ccf94
 
     s.setup = function () {
         s.pixelDensity(1);
@@ -41,11 +35,7 @@ new p5((s: p5) => {
         rocks = rocks.filter(o => !bullets.find(b => b.isCollidingWith(o)))
 
         // Collect all the game objects together so they can be updated/drawn
-<<<<<<< HEAD
-        const gameObjects: GameObject[] = [...bullets, ...obstacles, ...emittedObjects, player];
-=======
-        const gameObjects: GameObject[] = [...bullets, ...rocks, player];
->>>>>>> a8252f7451e409183938e0c52b6e6916725ccf94
+        const gameObjects: GameObject[] = [...bullets, ...rocks, ...emittedObjects, player];
 
         // Update each GameObject
         gameObjects.forEach(g => g.update());

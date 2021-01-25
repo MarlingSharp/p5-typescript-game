@@ -29,6 +29,8 @@ class Bullet extends GameObject {
     }
 
     drawAtOrigin(s: p5) {
+        s.noStroke();
+        s.fill('red');
         s.ellipse(0, 0, this.radius);
     }
 }

@@ -29,7 +29,7 @@ class Player extends GameObject {
             let force = s.createVector(0, Player.THRUST);
             force.setMag(Player.THRUST);
             force.rotate(this.heading);
-            // this.applyForce(force);
+            this.applyForce(force);
 
             if (this.framesSinceThrustParticleEmitted > Player.THRUST_EMISSION_GAP) {
                 this.emitGameObject(new ThrustParticle(s, this, this.heading));
